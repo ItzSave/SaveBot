@@ -1,6 +1,10 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
+
+mainClassName = "SaveBot"
 
 group 'org.itzsave'
 version '1.0-SNAPSHOT'
@@ -21,10 +25,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'org.itzsave.Main'
-    }
 }

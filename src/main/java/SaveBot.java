@@ -1,3 +1,4 @@
+import commands.BotCommand;
 import commands.EmbedCommand;
 import commands.PingCommand;
 import events.BotReadyEvent;
@@ -14,6 +15,7 @@ public class SaveBot {
                 .addEventListeners(new PingCommand())
                 .addEventListeners(new EmbedCommand())
                 .addEventListeners(new BotReadyEvent())
+                .addEventListeners(new BotCommand())
                 .setActivity(Activity.listening("Now running on JDA"))
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .build();

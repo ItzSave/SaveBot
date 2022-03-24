@@ -21,5 +21,10 @@
       <option name="name" value="m2-dv8tion" />
       <option name="url" value="https://m2.dv8tion.net/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="spigotmc-repo" />
+      <option name="name" value="spigotmc-repo" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
   </component>
 </project>

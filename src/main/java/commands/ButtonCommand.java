@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.Button;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class ButtonCommand extends ListenerAdapter {
 
@@ -40,8 +41,8 @@ public class ButtonCommand extends ListenerAdapter {
             MessageChannel channel = event.getChannel();
 
             EmbedBuilder eb = new EmbedBuilder();
-            eb.setColor(0x1279ff);
-            eb.setTitle("Alert Notifications");
+            eb.setColor(0xfcba03);
+            eb.setTitle("Notifications Roles");
             eb.setDescription("Click on the buttons below to add or remove roles.");
             eb.setFooter(event.getJDA().getSelfUser().getName());
             eb.setTimestamp(Instant.now());
@@ -50,33 +51,65 @@ public class ButtonCommand extends ListenerAdapter {
 
             message.setEmbeds(eb.build());
 
-            TextChannel textChannel = event.getGuild().getTextChannelsByName("ideas", true).get(0);
+            TextChannel textChannel = event.getGuild().getTextChannelById("956337119377387540");
+            assert textChannel != null;
             textChannel.sendMessage(message.build())
-                    .setActionRow((Button.success("Alerts","Alerts"))).queue(); // Button with only a label
+                    .setActionRow((Button.success("Updates", "Updates")),
+                            (Button.success("Giveaways", "Giveaways")),
+                            (Button.success("Polls", "Polls")))
+
+                    .queue(); // Button with only a label
 
         } else {
             return;
         }
+        event.getMessage().delete().queue();
     }
 
     public void onButtonClick(ButtonClickEvent event) {
         //Checking for when a user clicks on the alerts button.
-        if (event.getComponentId().equals("Alerts")) {
+        if (event.getComponentId().equals("Updates")) {
 
-            Role role = event.getGuild().getRolesByName("Notifications", false).get(0);
+            Role role = Objects.requireNonNull(event.getGuild()).getRolesByName("Updates", true).get(0);
 
             event.deferReply().queue();
 
-            if (event.getMember().getRoles().contains(role)) {
-                System.out.println("User " + event.getUser().getName() + " already has the notification role removing it...");
+            if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)) {
                 event.getGuild().removeRoleFromMember(event.getMember(), role).queue();
             } else {
-                System.out.println("Adding notification role to user...");
                 event.getGuild().addRoleToMember(event.getMember(), role).queue();
             }
             event.getHook().deleteOriginal().queue();
         }
 
         //Checking for when a user clicks on the giveaway button.
+        if (event.getComponentId().equals("Giveaways")) {
+
+            Role role = Objects.requireNonNull(event.getGuild()).getRolesByName("Giveaways", false).get(0);
+
+            event.deferReply().queue();
+
+            if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)) {
+                event.getGuild().removeRoleFromMember(event.getMember(), role).queue();
+            } else {
+                event.getGuild().addRoleToMember(event.getMember(), role).queue();
+            }
+            event.getHook().deleteOriginal().queue();
+        }
+
+        //Added poll role to the user
+        if (event.getComponentId().equals("Polls")) {
+
+            Role role = Objects.requireNonNull(event.getGuild()).getRolesByName("Polls", false).get(0);
+
+            event.deferReply().queue();
+
+            if (Objects.requireNonNull(event.getMember()).getRoles().contains(role)) {
+                event.getGuild().removeRoleFromMember(event.getMember(), role).queue();
+            } else {
+                event.getGuild().addRoleToMember(event.getMember(), role).queue();
+            }
+            event.getHook().deleteOriginal().queue();
+        }
     }
 }

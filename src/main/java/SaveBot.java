@@ -1,4 +1,5 @@
 import commands.MapCommand;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import commands.ButtonCommand;
@@ -31,6 +32,7 @@ public class SaveBot extends ListenerAdapter {
                     .addEventListeners(new ButtonCommand())
                     .addEventListeners(new UserJoinEvent())
                     .addEventListeners(new MapCommand())
+                    .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .setActivity(Activity.playing("on play.historicalmc.net"))
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .build();
